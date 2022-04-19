@@ -1,0 +1,62 @@
+﻿@using MovieWebApp.Models
+@model IEnumerable<MovieWebApp.Models.MovieModel>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+@{var orderByName = (int)OrderBy.OrderName;}
+@{var orderByDate = (int)OrderBy.OrderDate;}
+@{var orderByRating = (int)OrderBy.OrderRating;}
+
+    <h1>Movies</h1>
+
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th>
+                    <a asp-action="Movies" asp-route-orderBy="@orderByName">Name</a>
+                </th>
+
+                <th>
+                    <a asp-action="Movies" asp-route-orderBy="@orderByDate">Date</a>
+                </th>
+
+                <th>
+                    <a asp-action="Movies" asp-route-orderBy="@orderByRating">Like</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Movie" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                       </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LikeCount)
+
+                        @{
+                            @using (Html.BeginForm("LikeMovie", "Movie", FormMethod.Post))
+                            {
+                                
+                                var text = !item.IsLiked ? "Like" : "Dislike";
+                                <code>
+                                    <input type="hidden" value="@item.Id" name="movieId" />
+                                    <input type="submit" value="@text" />
+                                </code>
+                            }
+                        }
+
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>

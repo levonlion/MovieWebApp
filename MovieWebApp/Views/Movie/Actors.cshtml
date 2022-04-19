@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MovieWebApp.Models.ActorModel>
+
+@{
+    ViewData["Title"] = "Actors";
+}
+
+<h1>Movies</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                Like
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Actor" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                    
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.LikeCount)
+
+                    @{
+                        @using (Html.BeginForm("LikeActor", "Movie", FormMethod.Post))
+                        {
+
+                            var text = !item.IsLiked ? "Like" : "Dislike";
+                            <code>
+                                <input type="hidden" value="@item.Id" name="actorId" />
+                                <input type="submit" value="@text" />
+                            </code>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

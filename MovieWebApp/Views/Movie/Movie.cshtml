@@ -1,0 +1,66 @@
+﻿@model MovieWebApp.Models.MovieModel
+
+@{
+    ViewData["Title"] = "Movie";
+}
+
+<h1>Movies</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                Description
+            </th>
+
+            <th>
+                Actors
+            </th>
+
+            <th>
+                Rating
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Description)
+            </td>
+
+            <td>
+                @foreach (var item in Model.Actors)
+                {
+                    <a asp-action="Actor" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Name)
+                        <br />
+                    </a>
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.LikeCount)
+
+                @{
+                    @using (Html.BeginForm("LikeMovie", "Movie", FormMethod.Post))
+                    {
+
+                        var text = !Model.IsLiked ? "Like" : "Dislike";
+                        <code>
+                            <input type="hidden" value="@Model.Id" name="movieId" />
+                            <input type="submit" value="@text" />
+                        </code>
+                    }
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
