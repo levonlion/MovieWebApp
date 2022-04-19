@@ -10,6 +10,8 @@ namespace MovieWebApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        
+
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public DbSet<Movie> Movies { get; set; }
